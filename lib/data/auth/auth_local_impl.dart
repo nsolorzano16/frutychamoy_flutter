@@ -1,6 +1,7 @@
 import 'package:fruty_chamoy_flutter/data/auth/auth_repository.dart';
 import 'package:fruty_chamoy_flutter/env/enviroment.dart';
 import 'package:fruty_chamoy_flutter/models/loginModel.dart';
+import 'package:fruty_chamoy_flutter/utils/storageUtil.dart';
 import 'package:http/http.dart' as http;
 
 class AuthLocalImpl extends AuthRepository {
@@ -20,5 +21,10 @@ class AuthLocalImpl extends AuthRepository {
     } catch (e) {
       return null;
     }
+  }
+
+  @override
+  Future<bool> logout() {
+    return StorageUtil.remove('token');
   }
 }

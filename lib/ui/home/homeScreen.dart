@@ -1,61 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:fruty_chamoy_flutter/ui/login/loginCubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fruty_chamoy_flutter/utils/storageUtil.dart';
+
+import 'package:fruty_chamoy_flutter/ui/home/home_cubit.dart';
+import 'package:fruty_chamoy_flutter/ui/login/loginScreen.dart';
+import 'package:fruty_chamoy_flutter/ui/products/productsScreen.dart';
+import 'package:fruty_chamoy_flutter/utils/navigator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _homeCubit = context.read<HomeCubit>();
     return SafeArea(
+        child: BlocListener<HomeCubit, HomeState>(
+      listener: (context, state) {
+        if (state is LogoutState) {
+          popAllAndPush(context, LoginScreen());
+        }
+      },
       child: Scaffold(
-          appBar: AppBar(
-            title: Text('FRUTY CHAMOY'),
-          ),
-          body: Column(
-            children: [
-              _MenuItem(
-                leadingIcon: Icons.shopping_bag,
-                onTap: () {},
-                text: 'Agregar Producto',
+        appBar: AppBar(
+          title: Text('FRUTY CHAMOY'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: _homeCubit.logout,
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            _MenuItem(
+              leadingIcon: Icons.shopping_bag,
+              onTap: () => pushToPage(
+                context,
+                ProductsScreen(),
               ),
-              _MenuItem(
-                  text: 'Nueva Venta',
-                  leadingIcon: Icons.shopping_cart,
-                  onTap: () {}),
-              Expanded(
-                child: ListView(children: [
-                  Container(
-                    height: 100,
-                    color: Colors.blue,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 100,
-                    color: Colors.blue,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 100,
-                    color: Colors.blue,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    height: 100,
-                    color: Colors.blue,
-                  ),
-                ]),
-              ),
-            ],
-          )),
-    );
+              text: 'Agregar Producto',
+            ),
+            _MenuItem(
+                text: 'Nueva Venta',
+                leadingIcon: Icons.shopping_cart,
+                onTap: () {}),
+            Expanded(
+              child: ListView(children: [
+                Container(
+                  height: 100,
+                  color: Colors.blue,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 100,
+                  color: Colors.blue,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 100,
+                  color: Colors.blue,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 100,
+                  color: Colors.blue,
+                ),
+              ]),
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 }
 

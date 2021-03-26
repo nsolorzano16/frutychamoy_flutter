@@ -58,4 +58,9 @@ class StorageUtil {
     if (_preferences == null) return null;
     return _preferences.setBool(key, value);
   }
+
+  static Future<bool> remove(String key) {
+    if (_preferences == null) return Future.value(false);
+    return _preferences.remove(key);
+  }
 }

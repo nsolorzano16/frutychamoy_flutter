@@ -24,7 +24,7 @@ class CustomTextField extends StatelessWidget {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            prefixIcon: Icon(Icons.mail),
+            prefixIcon: Icon(icon),
             hintText: hintText,
             labelText: labelText),
       ),

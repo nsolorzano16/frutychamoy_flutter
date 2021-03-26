@@ -12,3 +12,5 @@ class FailureState extends LoginState {}
 
 // success login
 class SuccessState extends LoginState {}
+
+class LogoutState extends LoginState {}

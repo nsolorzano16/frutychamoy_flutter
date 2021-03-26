@@ -4,6 +4,7 @@ import 'package:fruty_chamoy_flutter/data/auth/auth_repository.dart';
 
 import 'package:fruty_chamoy_flutter/dependencies.dart';
 import 'package:fruty_chamoy_flutter/theme/appTheme.dart';
+import 'package:fruty_chamoy_flutter/ui/home/home_cubit.dart';
 import 'package:fruty_chamoy_flutter/ui/login/loginCubit.dart';
 import 'package:fruty_chamoy_flutter/ui/splash/splashScreen.dart';
 import 'package:fruty_chamoy_flutter/ui/splash/splash_cubit.dart';
@@ -27,6 +28,11 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => LoginCubit(
+                context.read<AuthRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => HomeCubit(
                 context.read<AuthRepository>(),
               ),
             )

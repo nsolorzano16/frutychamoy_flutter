@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruty_chamoy_flutter/data/auth/auth_repository.dart';
 
 import 'package:fruty_chamoy_flutter/models/loginModel.dart';
+
 import 'package:fruty_chamoy_flutter/utils/storageUtil.dart';
 import 'package:meta/meta.dart';
 
@@ -20,7 +21,6 @@ class LoginCubit extends Cubit<LoginState> {
     final resp = await _authRepository.login(model);
 
     if (resp != null) {
-      print(resp.toJson());
       StorageUtil.putString('token', resp.token);
       emit(SuccessState());
     } else {
