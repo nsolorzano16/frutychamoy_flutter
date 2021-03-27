@@ -25,8 +25,10 @@ class LoginScreen extends StatelessWidget {
       builder: (context, state) {
         switch (state.runtimeType) {
           case LoadingState:
-            return Center(
-              child: CircularProgressIndicator(),
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
             );
             break;
           case SuccessState:

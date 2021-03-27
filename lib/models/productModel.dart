@@ -16,20 +16,32 @@ class ProductModel {
     this.salePrice,
     this.purchasePrice,
     this.units,
+    this.user,
+    this.createdAt,
+    this.updatedAt,
+    this.id,
   });
 
   String name;
   String description;
   double salePrice;
-  int purchasePrice;
+  double purchasePrice;
   int units;
+  String user;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String id;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         name: json["name"],
         description: json["description"],
         salePrice: json["salePrice"].toDouble(),
-        purchasePrice: json["purchasePrice"],
+        purchasePrice: json["purchasePrice"].toDouble(),
         units: json["units"],
+        user: json["user"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,5 +50,9 @@ class ProductModel {
         "salePrice": salePrice,
         "purchasePrice": purchasePrice,
         "units": units,
+        "user": user,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "id": id,
       };
 }

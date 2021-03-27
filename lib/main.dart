@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruty_chamoy_flutter/data/auth/auth_repository.dart';
+import 'package:fruty_chamoy_flutter/data/productsApi/productsRepository.dart';
 
 import 'package:fruty_chamoy_flutter/dependencies.dart';
 import 'package:fruty_chamoy_flutter/theme/appTheme.dart';
 import 'package:fruty_chamoy_flutter/ui/home/home_cubit.dart';
 import 'package:fruty_chamoy_flutter/ui/login/loginCubit.dart';
+import 'package:fruty_chamoy_flutter/ui/products/productsCubit.dart';
 import 'package:fruty_chamoy_flutter/ui/splash/splashScreen.dart';
 import 'package:fruty_chamoy_flutter/ui/splash/splash_cubit.dart';
 import 'package:fruty_chamoy_flutter/utils/storageUtil.dart';
@@ -34,6 +36,11 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => HomeCubit(
                 context.read<AuthRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => ProductsCubit(
+                context.read<ProductsRepository>(),
               ),
             )
           ],
