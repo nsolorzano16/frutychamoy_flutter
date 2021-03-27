@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 part 'productsState.dart';
 
 class ProductsCubit extends Cubit<ProductsState> {
-  ProductsCubit(this._productsRepository) : super(ProductsInitial());
+  ProductsCubit(this._productsRepository) : super(ProductsInitial([]));
 
   final ProductsRepository _productsRepository;
 
@@ -17,7 +17,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   final TextEditingController purchasePriceController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
 
-  void addProduct(ProductModel product) async {
+  void addEditProduct(ProductModel product, bool isAdding) async {
     //validate fields
     if (nameController.text.isEmpty ||
         descriptionController.text.isEmpty ||
@@ -27,24 +27,42 @@ class ProductsCubit extends Cubit<ProductsState> {
       emit(FailureProductsState('Rellene todos los campos'));
     } else {
       emit(LoadingProductsState());
-      product.name = nameController.text;
-      product.description = descriptionController.text;
-      product.salePrice = double.parse(salePriceController.text);
-      product.purchasePrice = double.parse(purchasePriceController.text);
-      product.units = int.parse(quantityController.text);
-      product.createdAt = DateTime.now();
-      product.updatedAt = DateTime.now();
-      product.id = 'as400';
-      product.user = 'sa';
-      final resp = await _productsRepository.addProduct(product);
+      ProductModel resp;
 
-      if (resp != null) {
-        print('entro as succes');
-        emit(SuccessProductsState());
+      if (isAdding) {
+        product.name = nameController.text;
+        product.description = descriptionController.text;
+        product.salePrice = double.parse(salePriceController.text);
+        product.purchasePrice = double.parse(purchasePriceController.text);
+        product.units = int.parse(quantityController.text);
+        product.createdAt = DateTime.now();
+        product.updatedAt = DateTime.now();
+        resp = await _productsRepository.addProduct(product);
+        if (resp != null) {
+          emit(SuccessProductsState('Producto agregado'));
+        } else {
+          emit(FailureProductsState('Ha ocurrido un error intente mas tarde'));
+        }
       } else {
-        emit(FailureProductsState('Ha ocurrido un error intente mas tarde'));
+        product.name = nameController.text;
+        product.description = descriptionController.text;
+        product.salePrice = double.parse(salePriceController.text);
+        product.purchasePrice = double.parse(purchasePriceController.text);
+        product.units = int.parse(quantityController.text);
+        resp = await _productsRepository.editProduct(product);
+
+        if (resp != null) {
+          emit(SuccessProductsState('Producto editado'));
+        } else {
+          emit(FailureProductsState('Ha ocurrido un error intente mas tarde'));
+        }
       }
     }
+  }
+
+  void getProducts(int page) async {
+    final resp = await _productsRepository.getProducts(page);
+    emit(ProductsInitial(resp));
   }
 
   void cleanForm() {

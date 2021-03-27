@@ -30,8 +30,48 @@ class ProductsRepositoryImpl extends ProductsRepository {
   }
 
   @override
-  Future<ProductModel> editProduct(ProductModel product) {
-    // TODO: implement editProduct
-    throw UnimplementedError();
+  Future<ProductModel> editProduct(ProductModel product) async {
+    try {
+      final apiUrl = Uri.https(apiURL, '/api/products/edit/id/${product.id}');
+      final token = StorageUtil.getString('token');
+      final resp = await http.put(
+        apiUrl,
+        body: productModelToJson(product),
+        headers: {
+          'Content-Type': 'application/json',
+          'x-token': '$token',
+        },
+      );
+
+      if (resp.statusCode == 200) {
+        return productModelFromJson(resp.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<ProductModel>> getProducts(int page) async {
+    try {
+      final apiUrl = Uri.https(apiURL, '/api/products/limit/200/page/$page');
+      final token = StorageUtil.getString('token');
+      final resp = await http.get(
+        apiUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          'x-token': token,
+        },
+      );
+      if (resp.statusCode == 200) {
+        return productModelListFromJson(resp.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
   }
 }

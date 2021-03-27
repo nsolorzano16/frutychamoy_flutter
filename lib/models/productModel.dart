@@ -9,6 +9,10 @@ ProductModel productModelFromJson(String str) =>
 
 String productModelToJson(ProductModel data) => json.encode(data.toJson());
 
+List<ProductModel> productModelListFromJson(String str) =>
+    List<ProductModel>.from(
+        json.decode(str).map((x) => ProductModel.fromJson(x)));
+
 class ProductModel {
   ProductModel({
     this.name,
