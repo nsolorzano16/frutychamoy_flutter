@@ -24,11 +24,9 @@ class ProductsCubit extends Cubit<ProductsState> {
         salePriceController.text.isEmpty ||
         purchasePriceController.text.isEmpty ||
         quantityController.text.isEmpty) {
-      emit(FailureProductsState('Rellene todos los campos'));
+      emit(ValidateFormProductsState('Rellene todos los campos'));
     } else {
-      emit(LoadingProductsState());
       ProductModel resp;
-
       if (isAdding) {
         product.name = nameController.text;
         product.description = descriptionController.text;
@@ -61,6 +59,8 @@ class ProductsCubit extends Cubit<ProductsState> {
   }
 
   void getProducts(int page) async {
+    print('method getproducts ');
+    emit(LoadingProductsState());
     final resp = await _productsRepository.getProducts(page);
     emit(ProductsInitial(resp));
   }

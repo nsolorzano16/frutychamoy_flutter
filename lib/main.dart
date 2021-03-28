@@ -22,34 +22,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-        providers: buildRepositories(),
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => SplashCubit()..existToken(),
-            ),
-            BlocProvider(
-              create: (context) => LoginCubit(
-                context.read<AuthRepository>(),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => HomeCubit(
-                context.read<AuthRepository>(),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => ProductsCubit(
-                context.read<ProductsRepository>(),
-              )..getProducts(1),
-            )
-          ],
-          child: MaterialApp(
-            theme: appTheme(),
-            debugShowCheckedModeBanner: false,
-            title: 'Material App',
-            home: SplashScreen(),
+      providers: buildRepositories(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => SplashCubit()..existToken(),
           ),
-        ));
+          BlocProvider(
+            create: (context) => LoginCubit(
+              context.read<AuthRepository>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => HomeCubit(
+              context.read<AuthRepository>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => ProductsCubit(
+              context.read<ProductsRepository>(),
+            ),
+          )
+        ],
+        child: MaterialApp(
+          theme: appTheme(),
+          debugShowCheckedModeBanner: false,
+          title: 'Material App',
+          home: SplashScreen(),
+        ),
+      ),
+    );
   }
 }

@@ -25,12 +25,19 @@ class AddEditProductScreen extends StatelessWidget {
             listener: (context, state) {
               switch (state.runtimeType) {
                 case FailureProductsState:
-                  final snackBar = snackBarMessage(
+                  final _snackBar = snackBarMessage(
                       (state as FailureProductsState).errorMessage,
                       Colors.red,
                       Colors.white);
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  ScaffoldMessenger.of(context).showSnackBar(_snackBar);
                   _productsCubit.cleanForm();
+                  break;
+                case ValidateFormProductsState:
+                  final _snackBar = snackBarMessage(
+                      (state as ValidateFormProductsState).message,
+                      Colors.red,
+                      Colors.white);
+                  ScaffoldMessenger.of(context).showSnackBar(_snackBar);
                   break;
                 case SuccessProductsState:
                   final msg = (state as SuccessProductsState);

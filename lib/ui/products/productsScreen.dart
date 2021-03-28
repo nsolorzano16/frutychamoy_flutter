@@ -9,7 +9,7 @@ import 'package:fruty_chamoy_flutter/utils/navigator.dart';
 class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _productsCubit = context.read<ProductsCubit>();
+    final _productsCubit = context.read<ProductsCubit>()..getProducts(1);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -103,7 +103,7 @@ class ProductsScreen extends StatelessWidget {
                                     style: TextStyle(fontSize: 16),
                                   ),
                                   Text(
-                                    'Cantidad Disponible: ${product.salePrice}',
+                                    'Cantidad Disponible: ${product.units}',
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -119,7 +119,7 @@ class ProductsScreen extends StatelessWidget {
                 break;
               default:
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: Text('No hay registros'),
                 );
             }
             // return ListView(

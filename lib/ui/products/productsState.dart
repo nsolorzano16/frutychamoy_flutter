@@ -22,3 +22,9 @@ class FailureProductsState extends ProductsState {
 
   FailureProductsState(this.errorMessage);
 }
+
+class ValidateFormProductsState extends ProductsState {
+  final String message;
+
+  ValidateFormProductsState(this.message);
+}
