@@ -12,70 +12,79 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _homeCubit = context.read<HomeCubit>();
-    return SafeArea(
-        child: BlocListener<HomeCubit, HomeState>(
-      listener: (context, state) {
-        if (state is LogoutState) {
-          popAllAndPush(context, LoginScreen());
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('FRUTY CHAMOY'),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: _homeCubit.logout,
-            ),
-          ],
-        ),
-        body: Column(
-          children: [
-            _MenuItem(
-              leadingIcon: Icons.shopping_bag,
-              onTap: () => pushToPage(
-                context,
-                ProductsScreen(),
-              ),
-              text: 'Agregar Producto',
-            ),
-            _MenuItem(
-                text: 'Nueva Venta',
-                leadingIcon: Icons.shopping_cart,
-                onTap: () {}),
-            Expanded(
-              child: ListView(children: [
-                Container(
-                  height: 100,
-                  color: Colors.blue,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.blue,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.blue,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 100,
-                  color: Colors.blue,
-                ),
-              ]),
-            ),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('FRUTY CHAMOY'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: _homeCubit.logout,
+          ),
+        ],
       ),
-    ));
+      body: BlocConsumer<HomeCubit, HomeState>(
+        listener: (context, state) {
+          if (state is LogoutState) {
+            popAllAndPush(context, LoginScreen());
+          }
+        },
+        builder: (context, state) {
+          switch (state.runtimeType) {
+            case RenewTokenState:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+              break;
+            default:
+              return Column(
+                children: [
+                  _MenuItem(
+                    leadingIcon: Icons.shopping_bag,
+                    onTap: () => pushToPage(
+                      context,
+                      ProductsScreen(),
+                    ),
+                    text: 'Agregar Producto',
+                  ),
+                  _MenuItem(
+                      text: 'Nueva Venta',
+                      leadingIcon: Icons.shopping_cart,
+                      onTap: () {}),
+                  Expanded(
+                    child: ListView(children: [
+                      Container(
+                        height: 100,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 100,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 100,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 100,
+                        color: Colors.blue,
+                      ),
+                    ]),
+                  ),
+                ],
+              );
+          }
+        },
+      ),
+    );
   }
 }
 

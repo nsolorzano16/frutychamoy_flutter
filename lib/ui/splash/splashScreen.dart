@@ -7,17 +7,15 @@ import 'package:fruty_chamoy_flutter/ui/splash/splash_cubit.dart';
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(body: BlocBuilder<SplashCubit, SplashState>(
-        builder: (context, state) {
-          if (state is SplashInitialState) {
-            return LoginScreen();
-          } else if (state is LoggedState) {
-            return HomeScreen();
-          }
+    return Scaffold(body: BlocBuilder<SplashCubit, SplashState>(
+      builder: (context, state) {
+        if (state is SplashInitialState) {
           return LoginScreen();
-        },
-      )),
-    );
+        } else if (state is LoggedState) {
+          return HomeScreen();
+        }
+        return LoginScreen();
+      },
+    ));
   }
 }

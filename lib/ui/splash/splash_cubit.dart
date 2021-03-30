@@ -10,8 +10,7 @@ class SplashCubit extends Cubit<SplashState> {
 
   void existToken() {
     final token = StorageUtil.getString('token');
-    print('OKEENE');
-    print(token);
+
     if (token.isNotEmpty && token != null) {
       emit(LoggedState());
     } else {

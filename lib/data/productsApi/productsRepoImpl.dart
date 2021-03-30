@@ -68,10 +68,10 @@ class ProductsRepositoryImpl extends ProductsRepository {
       if (resp.statusCode == 200) {
         return productModelListFromJson(resp.body);
       } else {
-        return null;
+        return [];
       }
     } catch (e) {
-      return null;
+      return [];
     }
   }
 }

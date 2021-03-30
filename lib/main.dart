@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => HomeCubit(
               context.read<AuthRepository>(),
-            ),
+            )..renewToken(),
           ),
           BlocProvider(
             create: (context) => ProductsCubit(

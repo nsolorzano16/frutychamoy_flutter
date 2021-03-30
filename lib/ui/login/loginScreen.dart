@@ -34,78 +34,76 @@ class LoginScreen extends StatelessWidget {
           case SuccessState:
             return HomeScreen();
           default:
-            return SafeArea(
-              child: Scaffold(
-                  body: ListView(
-                physics: BouncingScrollPhysics(),
-                children: [
-                  const SizedBox(
-                    height: 45,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Text(
-                        'FRUTY CHAMOY APP',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
+            return Scaffold(
+                body: ListView(
+              physics: BouncingScrollPhysics(),
+              children: [
+                const SizedBox(
+                  height: 45,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      'FRUTY CHAMOY APP',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  CustomTextField(
-                    hintText: 'email@example.com',
-                    icon: Icons.mail,
-                    labelText: 'Email',
-                    controller: _loginCubit.emailController,
-                  ),
-                  CustomTextField(
-                    icon: Icons.lock_outline,
-                    hintText: 'Password',
-                    labelText: 'Password',
-                    controller: _loginCubit.passwordController,
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.red[800],
-                          padding: const EdgeInsets.all(25),
-                          textStyle: TextStyle(
-                            fontSize: 16,
-                          )),
-                      onPressed: () {
-                        if (_loginCubit.emailController.text.isEmpty ||
-                            _loginCubit.passwordController.text.isEmpty) {
-                          final snackBar = snackBarMessage(
-                              'Ingrese toda la información',
-                              Color.fromRGBO(255, 245, 200, 1),
-                              Color.fromRGBO(114, 84, 0, 1));
+                ),
+                CustomTextField(
+                  hintText: 'email@example.com',
+                  icon: Icons.mail,
+                  labelText: 'Email',
+                  controller: _loginCubit.emailController,
+                ),
+                CustomTextField(
+                  icon: Icons.lock_outline,
+                  hintText: 'Password',
+                  labelText: 'Password',
+                  controller: _loginCubit.passwordController,
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.red[800],
+                        padding: const EdgeInsets.all(25),
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                        )),
+                    onPressed: () {
+                      if (_loginCubit.emailController.text.isEmpty ||
+                          _loginCubit.passwordController.text.isEmpty) {
+                        final snackBar = snackBarMessage(
+                            'Ingrese toda la información',
+                            Color.fromRGBO(255, 245, 200, 1),
+                            Color.fromRGBO(114, 84, 0, 1));
 
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        } else {
-                          _loginCubit.login(LoginModel(
-                              email: _loginCubit.emailController.text,
-                              password: _loginCubit.passwordController.text));
-                        }
-                      },
-                      child: Text(
-                        'LOGIN',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        _loginCubit.login(LoginModel(
+                            email: _loginCubit.emailController.text,
+                            password: _loginCubit.passwordController.text));
+                      }
+                    },
+                    child: Text(
+                      'LOGIN',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                ],
-              )),
-            );
+                ),
+              ],
+            ));
         }
       },
     );
