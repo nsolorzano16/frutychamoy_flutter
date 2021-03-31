@@ -5,6 +5,7 @@ import 'package:fruty_chamoy_flutter/data/productsApi/productsRepository.dart';
 
 import 'package:fruty_chamoy_flutter/dependencies.dart';
 import 'package:fruty_chamoy_flutter/theme/appTheme.dart';
+import 'package:fruty_chamoy_flutter/ui/cart/cartCubit.dart';
 import 'package:fruty_chamoy_flutter/ui/home/home_cubit.dart';
 import 'package:fruty_chamoy_flutter/ui/login/loginCubit.dart';
 import 'package:fruty_chamoy_flutter/ui/products/productsCubit.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
             create: (context) => ProductsCubit(
               context.read<ProductsRepository>(),
             ),
+          ),
+          BlocProvider(
+            create: (context) => CartCubit(),
           )
         ],
         child: MaterialApp(
