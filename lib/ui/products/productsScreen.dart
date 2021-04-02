@@ -1,15 +1,16 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fruty_chamoy_flutter/models/cartModel.dart';
 import 'package:fruty_chamoy_flutter/models/productModel.dart';
 import 'package:fruty_chamoy_flutter/ui/cart/cartCubit.dart';
+import 'package:fruty_chamoy_flutter/ui/cart/cartScreen.dart';
 
 import 'package:fruty_chamoy_flutter/ui/products/addEditProductScreen.dart';
 import 'package:fruty_chamoy_flutter/ui/products/productsCubit.dart';
 import 'package:fruty_chamoy_flutter/utils/navigator.dart';
 import 'package:fruty_chamoy_flutter/utils/utils.dart';
 
-//TODO: revisr el snackbar que se loqueo
 class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,35 +44,14 @@ class ProductsScreen extends StatelessWidget {
               builder: (context, state) {
                 switch (state.runtimeType) {
                   case ProductsAddedCartState:
-                    return Badge(
-                      position: BadgePosition.topStart(start: 0, top: -3),
-                      animationDuration: const Duration(milliseconds: 300),
-                      animationType: BadgeAnimationType.slide,
-                      badgeContent: Text(
-                        '${(state as ProductsAddedCartState).itemsCart.length}',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.shopping_cart),
-                        onPressed: () {
-                          //TODO: go to cart page
-                        },
-                      ),
+                    return _CartQuantityAppBar(
+                      itemsCart:
+                          (state as ProductsAddedCartState).itemsCart.length,
                     );
                     break;
                   default:
-                    return Badge(
-                      position: BadgePosition.topStart(start: 0, top: -3),
-                      animationDuration: const Duration(milliseconds: 300),
-                      animationType: BadgeAnimationType.slide,
-                      badgeContent: Text(
-                        '${_cartCubit.items.length}',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.shopping_cart),
-                        onPressed: () {},
-                      ),
+                    return _CartQuantityAppBar(
+                      itemsCart: _cartCubit.items.length,
                     );
                 }
               },
@@ -137,7 +117,8 @@ class ProductsScreen extends StatelessWidget {
                                       color: Colors.deepPurple[700],
                                     ),
                                     onPressed: () {
-                                      _cartCubit.addProductToCart(product);
+                                      _cartCubit.addProductToCart(
+                                          CartModel(product, product.units));
                                     },
                                   ),
                                 ],
@@ -168,7 +149,11 @@ class ProductsScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     'Cantidad Disponible: ${product.units}',
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               )),
@@ -202,6 +187,32 @@ class ProductsScreen extends StatelessWidget {
           },
           child: Icon(Icons.add),
         ),
+      ),
+    );
+  }
+}
+
+class _CartQuantityAppBar extends StatelessWidget {
+  final int itemsCart;
+
+  const _CartQuantityAppBar({
+    Key key,
+    @required this.itemsCart,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Badge(
+      position: BadgePosition.topStart(start: 0, top: -3),
+      animationDuration: const Duration(milliseconds: 300),
+      animationType: BadgeAnimationType.slide,
+      badgeContent: Text(
+        '$itemsCart',
+        style: TextStyle(color: Colors.white),
+      ),
+      child: IconButton(
+        icon: Icon(Icons.shopping_cart),
+        onPressed: () => pushToPage(context, CartScreen()),
       ),
     );
   }
