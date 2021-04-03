@@ -9,10 +9,17 @@ class CartInitial extends CartState {
   CartInitial(this.itemsCart);
 }
 
-class ProductsAddedCartState extends CartState {
+class ItemsUpdatedCartState extends CartState {
   final List<CartModel> itemsCart;
+  final int qtyProducts;
+  final double total;
+  final double gain;
 
-  ProductsAddedCartState(this.itemsCart);
+  ItemsUpdatedCartState(
+      {@required this.itemsCart,
+      @required this.qtyProducts,
+      @required this.total,
+      @required this.gain});
 }
 
 class ProductExistCartState extends CartState {
@@ -20,5 +27,3 @@ class ProductExistCartState extends CartState {
 
   ProductExistCartState(this.message);
 }
-
-class ItemQuantityUpdatedCartState extends CartState {}

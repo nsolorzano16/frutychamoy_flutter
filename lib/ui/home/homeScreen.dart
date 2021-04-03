@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                       context,
                       ProductsScreen(),
                     ),
-                    text: 'Agregar Producto',
+                    text: 'Productos',
                   ),
                   _MenuItem(
                       text: 'Nueva Venta',

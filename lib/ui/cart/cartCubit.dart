@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fruty_chamoy_flutter/models/cartModel.dart';
+
 //TODO: revisar totales y calcularlos bien
 
 import 'package:meta/meta.dart';
@@ -24,7 +25,11 @@ class CartCubit extends Cubit<CartState> {
       } else {
         items.add(item);
         calculateTotals(false);
-        emit(ProductsAddedCartState(items));
+        emit(ItemsUpdatedCartState(
+            gain: gain,
+            itemsCart: items,
+            qtyProducts: productsQty,
+            total: total));
       }
     } else {
       emit(ProductExistCartState('Producto no disponible'));
@@ -35,43 +40,50 @@ class CartCubit extends Cubit<CartState> {
     if (items[index].product.units > 0) {
       items[index].product.units = items[index].product.units - 1;
       calculateTotals(true);
-      emit(ItemQuantityUpdatedCartState());
+      emit(ItemsUpdatedCartState(
+          gain: gain,
+          itemsCart: items,
+          qtyProducts: productsQty,
+          total: total));
     }
   }
 
   void addQuantityItemCart(int index) {
     if (items[index].product.units < items[index].quantityLimit) {
       items[index].product.units = items[index].product.units + 1;
-      emit(ItemQuantityUpdatedCartState());
+      calculateTotals(false);
+      emit(ItemsUpdatedCartState(
+          gain: gain,
+          itemsCart: items,
+          qtyProducts: productsQty,
+          total: total));
     }
   }
 
   void removeItemFromCart(int index) {
+    final pr = items[index].product;
+    total = total - 1 * (pr.salePrice * pr.units);
     items.removeAt(index);
-    calculateTotals(true);
-    emit(ItemQuantityUpdatedCartState());
+    emit(ItemsUpdatedCartState(
+        gain: gain, itemsCart: items, qtyProducts: productsQty, total: total));
   }
 
   void resetCart() {
     items.clear();
-    emit(CartInitial([]));
+    gain = 0;
+    productsQty = 0;
+    total = 0;
+    emit(ItemsUpdatedCartState(
+        gain: 0, itemsCart: [], qtyProducts: 0, total: 0));
   }
 
+//TODO: no me convence
   void calculateTotals(bool substract) {
+    total = 0;
     if (items.isNotEmpty) {
-      if (!substract) {
-        //calaculate totals
-        items.forEach((element) {
-          total = total + element.product.salePrice;
-          productsQty = productsQty + element.product.units;
-        });
-      } else {
-        //calaculate totals
-        items.forEach((element) {
-          total = total - element.product.salePrice.round();
-          productsQty = productsQty - element.product.units;
-        });
-      }
+      items.forEach((element) {
+        total = total + (element.product.salePrice * element.product.units);
+      });
     } else {
       gain = 0;
       productsQty = 0;

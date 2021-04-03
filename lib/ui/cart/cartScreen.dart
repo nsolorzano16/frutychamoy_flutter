@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruty_chamoy_flutter/ui/cart/cartCubit.dart';
 
+//TODO: revisar los states de esta pantalla
 class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -14,113 +15,117 @@ class CartScreen extends StatelessWidget {
       ),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: _cartCubit.items.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final item = _cartCubit.items[index];
-                    return Card(
-                      elevation: 3,
-                      margin: EdgeInsets.all(7),
-                      child: ListTile(
-                        title: Text(
-                          item.product.name.toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Table(
-                          children: [
-                            TableRow(
-                              children: [
-                                Text('Cantidad disponible:'),
-                                Text(
-                                  ' ${item.quantityLimit}',
-                                  style: _style,
-                                ),
-                              ],
+          if (state is ItemsUpdatedCartState) {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: _cartCubit.items.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = state.itemsCart[index];
+
+                      return Card(
+                        elevation: 3,
+                        margin: EdgeInsets.all(7),
+                        child: ListTile(
+                          title: Text(
+                            item.product.name.toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
                             ),
-                            TableRow(
-                              children: [
-                                Text('Precio:'),
-                                Text(
-                                  ' ${item.product.salePrice}',
-                                  style: _style,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        trailing: Container(
-                          width: 180,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          ),
+                          subtitle: Table(
                             children: [
-                              CircleAvatar(
-                                backgroundColor: Theme.of(context).primaryColor,
-                                radius: 20,
-                                child: IconButton(
-                                  splashRadius: 30,
-                                  color: Colors.white,
-                                  icon: Icon(Icons.remove),
-                                  onPressed: () =>
-                                      _cartCubit.removeQuantityItemCart(index),
-                                ),
-                              ),
-                              Text(
-                                item.product.units.toString(),
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              CircleAvatar(
-                                backgroundColor: Theme.of(context).primaryColor,
-                                radius: 20,
-                                child: IconButton(
-                                  splashRadius: 30,
-                                  color: Colors.white,
-                                  icon: Icon(Icons.add),
-                                  onPressed: () =>
-                                      _cartCubit.addQuantityItemCart(index),
-                                ),
-                              ),
-                              IconButton(
-                                  splashRadius: 25,
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+                              TableRow(
+                                children: [
+                                  Text('Cantidad disponible:'),
+                                  Text(
+                                    ' ${item.quantityLimit}',
+                                    style: _style,
                                   ),
-                                  onPressed: () =>
-                                      _cartCubit.removeItemFromCart(index))
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  Text('Precio:'),
+                                  Text(
+                                    ' ${item.product.salePrice}',
+                                    style: _style,
+                                  ),
+                                ],
+                              )
                             ],
                           ),
+                          trailing: Container(
+                            width: 180,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  radius: 20,
+                                  child: IconButton(
+                                    splashRadius: 30,
+                                    color: Colors.white,
+                                    icon: Icon(Icons.remove),
+                                    onPressed: () => _cartCubit
+                                        .removeQuantityItemCart(index),
+                                  ),
+                                ),
+                                Text(
+                                  item.product.units.toString(),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  radius: 20,
+                                  child: IconButton(
+                                    splashRadius: 30,
+                                    color: Colors.white,
+                                    icon: Icon(Icons.add),
+                                    onPressed: () =>
+                                        _cartCubit.addQuantityItemCart(index),
+                                  ),
+                                ),
+                                IconButton(
+                                    splashRadius: 25,
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () =>
+                                        _cartCubit.removeItemFromCart(index))
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Container(
+                Container(
                   height: 250,
                   child: Column(
                     children: [
                       _SummaryText(
                         title: 'Cantidad de Productos',
-                        amount: '${_cartCubit.productsQty}',
+                        amount: '${state.qtyProducts}',
                       ),
                       _SummaryText(
                         title: 'Ganancia',
-                        amount: '--',
+                        amount: '${state.gain}',
                       ),
                       _SummaryText(
                         title: 'TOTAL',
-                        amount: '${_cartCubit.total}',
+                        amount: '${state.total}',
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
@@ -143,9 +148,13 @@ class CartScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ))
-            ],
-          );
+                  ),
+                )
+              ],
+            );
+          } else {
+            return Container();
+          }
         },
       ),
     );

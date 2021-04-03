@@ -43,10 +43,10 @@ class ProductsScreen extends StatelessWidget {
               },
               builder: (context, state) {
                 switch (state.runtimeType) {
-                  case ProductsAddedCartState:
+                  case ItemsUpdatedCartState:
                     return _CartQuantityAppBar(
                       itemsCart:
-                          (state as ProductsAddedCartState).itemsCart.length,
+                          (state as ItemsUpdatedCartState).itemsCart.length,
                     );
                     break;
                   default:

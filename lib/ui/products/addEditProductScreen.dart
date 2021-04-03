@@ -70,21 +70,22 @@ class AddEditProductScreen extends StatelessWidget {
                 labelText: 'Descripción',
                 controller: _productsCubit.descriptionController,
               ),
-              CustomTextField(
+              CustomTextFieldNumber(
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 icon: Icons.file_download_done,
                 hintText: '0.0',
                 labelText: 'Precio de Compra',
                 controller: _productsCubit.purchasePriceController,
               ),
-              CustomTextField(
+              CustomTextFieldNumber(
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 icon: Icons.file_download_done,
                 hintText: '0.0',
                 labelText: 'Precio de Venta',
                 controller: _productsCubit.salePriceController,
               ),
-              CustomTextField(
+              CustomTextFieldNumber(
+                keyboardType: TextInputType.number,
                 icon: Icons.file_download_done,
                 hintText: '0',
                 labelText: 'Cantidad',
