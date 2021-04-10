@@ -46,10 +46,6 @@ class HomeScreen extends StatelessWidget {
                     ),
                     text: 'Productos',
                   ),
-                  _MenuItem(
-                      text: 'Nueva Venta',
-                      leadingIcon: Icons.shopping_cart,
-                      onTap: () {}),
                   Expanded(
                     child: ListView(children: [
                       Container(

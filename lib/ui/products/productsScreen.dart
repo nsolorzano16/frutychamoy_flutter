@@ -32,12 +32,15 @@ class ProductsScreen extends StatelessWidget {
             BlocConsumer<CartCubit, CartState>(
               listener: (context, state) {
                 switch (state.runtimeType) {
-                  case ProductExistCartState:
-                    final _snackBar = snackBarMessage(
-                        (state as ProductExistCartState).message,
-                        Colors.red,
-                        Colors.white);
-                    ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+                  case ItemsUpdatedCartState:
+                    if ((state as ItemsUpdatedCartState).message.isNotEmpty) {
+                      final _snackBar = snackBarMessage(
+                          (state as ItemsUpdatedCartState).message,
+                          Colors.red,
+                          Colors.white);
+                      ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+                    }
+
                     break;
                 }
               },
