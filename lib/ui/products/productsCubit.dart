@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:fruty_chamoy_flutter/data/productsApi/productsRepository.dart';
+import 'package:fruty_chamoy_flutter/data/products/productsRepository.dart';
+
 import 'package:fruty_chamoy_flutter/models/productModel.dart';
 import 'package:meta/meta.dart';
 

@@ -17,3 +17,9 @@ class ItemsUpdatedCartState extends CartState {
       @required this.total,
       @required this.gain});
 }
+
+class OrderSucceededCartState extends CartState {}
+
+class OrderFailureCartState extends CartState {}
+
+class LoadingCartState extends CartState {}

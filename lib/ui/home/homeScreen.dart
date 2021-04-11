@@ -8,7 +8,7 @@ import 'package:fruty_chamoy_flutter/utils/navigator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
-
+//TODO: revisar bien esto
   @override
   Widget build(BuildContext context) {
     final _homeCubit = context.read<HomeCubit>();
@@ -25,7 +25,10 @@ class HomeScreen extends StatelessWidget {
       body: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
           if (state is LogoutState) {
-            popAllAndPush(context, LoginScreen());
+            print('entro');
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => LoginScreen(),
+            ));
           }
         },
         builder: (context, state) {

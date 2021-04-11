@@ -1,6 +1,7 @@
+import 'package:fruty_chamoy_flutter/data/products/productsRepository.dart';
 import 'package:fruty_chamoy_flutter/utils/storageUtil.dart';
 import 'package:http/http.dart' as http;
-import 'package:fruty_chamoy_flutter/data/productsApi/productsRepository.dart';
+
 import 'package:fruty_chamoy_flutter/env/enviroment.dart';
 import 'package:fruty_chamoy_flutter/models/productModel.dart';
 

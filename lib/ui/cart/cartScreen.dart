@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruty_chamoy_flutter/ui/cart/cartCubit.dart';
+import 'package:fruty_chamoy_flutter/ui/home/homeScreen.dart';
 import 'package:fruty_chamoy_flutter/ui/products/productsCubit.dart';
+import 'package:fruty_chamoy_flutter/ui/products/productsScreen.dart';
+import 'package:fruty_chamoy_flutter/utils/navigator.dart';
+import 'package:fruty_chamoy_flutter/utils/utils.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -23,7 +27,20 @@ class CartScreen extends StatelessWidget {
           ),
           title: Text('Orden'),
         ),
-        body: BlocBuilder<CartCubit, CartState>(
+        body: BlocConsumer<CartCubit, CartState>(
+          listener: (context, state) {
+            if (state is OrderFailureCartState) {
+              final _snackBar = snackBarMessage(
+                  'Ha ocurrido un error al procesar la orden',
+                  Colors.red,
+                  Colors.white);
+              ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+              _cartCubit.resetCart();
+              pushAndReplaceToPage(context, ProductsScreen());
+            } else if (state is OrderSucceededCartState) {
+              pushAndReplaceToPage(context, HomeScreen());
+            }
+          },
           builder: (context, state) {
             if (state is ItemsUpdatedCartState) {
               return Column(
@@ -34,7 +51,6 @@ class CartScreen extends StatelessWidget {
                       itemCount: _cartCubit.items.length,
                       itemBuilder: (BuildContext context, int index) {
                         final item = state.itemsCart[index];
-
                         return Card(
                           elevation: 3,
                           margin: EdgeInsets.all(7),
@@ -151,7 +167,9 @@ class CartScreen extends StatelessWidget {
                                   EdgeInsets.all(20),
                                 ),
                               ),
-                              onPressed: state.itemsCart.isEmpty ? null : () {},
+                              onPressed: state.itemsCart.isEmpty
+                                  ? null
+                                  : () => _cartCubit.processOrder(),
                               child: Text(
                                 'Guardar',
                                 style: TextStyle(fontSize: 22),
@@ -163,6 +181,10 @@ class CartScreen extends StatelessWidget {
                     ),
                   )
                 ],
+              );
+            } else if (state is LoadingCartState) {
+              return Center(
+                child: CircularProgressIndicator(),
               );
             } else {
               return Container();

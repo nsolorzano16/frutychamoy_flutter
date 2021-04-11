@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruty_chamoy_flutter/data/auth/auth_repository.dart';
-import 'package:fruty_chamoy_flutter/data/productsApi/productsRepository.dart';
+import 'package:fruty_chamoy_flutter/data/orders/ordersRepository.dart';
+import 'package:fruty_chamoy_flutter/data/products/productsRepository.dart';
 
 import 'package:fruty_chamoy_flutter/dependencies.dart';
 import 'package:fruty_chamoy_flutter/theme/appTheme.dart';
@@ -45,7 +46,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => CartCubit(),
+            create: (context) => CartCubit(
+              context.read<OrdersRepository>(),
+            ),
           )
         ],
         child: MaterialApp(
